@@ -50,10 +50,10 @@ public class Consultoria {
 
     public Boolean contratarFullstack(DesenvolvedorWeb desenvolvedor){
 
-        for (Desenvolvedor dev : desenvolvedores) {
+        for (int i = 0; i <= desenvolvedores.size(); i++) {
             if (desenvolvedor.isFullstack()){
                 desenvolvedores.add(desenvolvedor);
-                    return true;
+                return true;
             }
         }
         return false;
@@ -74,7 +74,7 @@ public class Consultoria {
 
         for (Desenvolvedor dev : desenvolvedores) {
             if (dev instanceof DesenvolvedorMobile){
-                soma += desenvolvedores.size();
+                soma ++;
             }
         }
 
@@ -83,9 +83,9 @@ public class Consultoria {
 
     public List<Desenvolvedor> buscarPorSalarioMaiorIgualQue(Double salario){
         List<Desenvolvedor> devs = new ArrayList<>();
-        Double primeiroSalario = devs.get(0).calcularSalario();
 
         for (Desenvolvedor desenvolvedor : desenvolvedores) {
+            Double primeiroSalario = desenvolvedor.calcularSalario();
             if (primeiroSalario >= salario){
                 devs.add(desenvolvedor);
             }
@@ -110,5 +110,51 @@ public class Consultoria {
         return dev;
     }
 
+    public List<Desenvolvedor> buscarPorTecnologia(String tecnologia){
+        List<Desenvolvedor> devs = new ArrayList<>();
 
+        if (desenvolvedores.isEmpty()){
+            return null;
+        }
+
+        for (Desenvolvedor desenvolvedor : desenvolvedores) {
+           if (desenvolvedor instanceof DesenvolvedorMobile){
+               if (((DesenvolvedorMobile) desenvolvedor).getLinguagem().equals(tecnologia) ||
+                    ((DesenvolvedorMobile) desenvolvedor).getPlataforma().equals(tecnologia)){
+                   devs.add(desenvolvedor);
+               }
+           }
+           if (desenvolvedor instanceof DesenvolvedorWeb){
+               if (((DesenvolvedorWeb) desenvolvedor).getFrontend().equals(tecnologia) ||
+                   ((DesenvolvedorWeb) desenvolvedor).getBackend().equals(tecnologia) ||
+                   ((DesenvolvedorWeb) desenvolvedor).getSgbd().equals(tecnologia)){
+                   devs.add(desenvolvedor);
+               }
+           }
+        }
+
+        return devs;
+    }
+
+    public Double getTotalSalariosPorTecnologia(String tecnologia){
+        Double soma = 0.0;
+
+        for (Desenvolvedor desenvolvedor : desenvolvedores) {
+            if (desenvolvedor instanceof DesenvolvedorMobile){
+                if (((DesenvolvedorMobile) desenvolvedor).getLinguagem().equals(tecnologia) ||
+                        ((DesenvolvedorMobile) desenvolvedor).getPlataforma().equals(tecnologia)){
+                     soma+= desenvolvedor.calcularSalario();
+                }
+            }
+            if (desenvolvedor instanceof DesenvolvedorWeb){
+                if (((DesenvolvedorWeb) desenvolvedor).getFrontend().equals(tecnologia) ||
+                        ((DesenvolvedorWeb) desenvolvedor).getBackend().equals(tecnologia) ||
+                        ((DesenvolvedorWeb) desenvolvedor).getSgbd().equals(tecnologia)){
+                        soma+= desenvolvedor.calcularSalario();
+                }
+            }
+        }
+
+        return soma;
+    }
 }
